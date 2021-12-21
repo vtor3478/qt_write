@@ -8,8 +8,8 @@
 #include <QLine>
 #include <QVector>
 #include <QMouseEvent>
+#include "params.h"
 
-extern QVector<QPoint> trace_a;
 
 class Widget : public QWidget
 {
@@ -24,7 +24,9 @@ public:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     QTimer runTimer,drawTimer;
+    QVector<QLine> trace2;
     QVector<QPoint> trace3;
+    int *trace4;
     QLine now_line;
     int draw_en;
     int strokes;

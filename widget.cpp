@@ -6,11 +6,10 @@ Widget::Widget(QWidget *parent)
     runTimer.setInterval(10);
     runTimer.start();
 
-    trace3 = trace_a;
+    //trace3 = trace_a;
+    trace4 = trace_a;
     connect(&runTimer,&QTimer::timeout,[=](){
         update();
-//        if (run_time > 120)
-//            run_time = 0;
     });
     drawTimer.setInterval(10);
     drawTimer.start();
@@ -29,16 +28,13 @@ void Widget::mousePressEvent(QMouseEvent *event)
     if (event->buttons() & Qt::LeftButton)
     {
         QPoint pos;
-        pos = QPoint(-1,-1);
-        qDebug() << pos << ",";
-        trace3.push_back(pos);
         pos = event->pos();
-        qDebug() << pos << ",";
-        trace3.push_back(pos);
+        qDebug() << pos.x() << "," << pos.y() << ",";
+        //trace3.push_back(pos);
     }
     else
     {
-        trace3.clear();
+        //trace3.clear();
     }
 }
 
@@ -48,8 +44,8 @@ void Widget::mouseMoveEvent(QMouseEvent *event)
     {
         QPoint pos;
         pos = event->pos();
-        qDebug() << pos << ",";
-        trace3.push_back(pos);
+        qDebug() << pos.x() << "," << pos.y() << ",";
+        //trace3.push_back(pos);
     }
     else {
 
@@ -62,28 +58,36 @@ void Widget::mouseReleaseEvent(QMouseEvent *event)
     {
         QPoint pos;
         pos = event->pos();
-        qDebug() << pos << ",";
-        trace3.push_back(pos);
-        pos = QPoint(-1,-1);
-        qDebug() << pos << ",";
-        trace3.push_back(pos);
+        qDebug() << pos.x() << "," << pos.y() << ",";
+        //trace3.push_back(pos);
+        pos = QPoint(0,0);
+        qDebug() << pos.x() << "," << pos.y() << ",";
+        //trace3.push_back(pos);
     }
 }
 
 void Widget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    for (int i = 1; i < trace3.length()-1;i++)
+
+    int i = 3;
+    static int len = 0;
+    // 或，判断是否结束，
+    while((trace4[i-3] || trace4[i-2]) || (trace4[i-1] || trace4[i-0]))
     {
-        if (trace3[i-1] != QPoint(-1,-1) && trace3[i] != QPoint(-1,-1))
+        if ((trace4[i-3] || trace4[i-2]) && (trace4[i-1] || trace4[i-0]))
         {
             if (i < strokes)
             {
-                painter.drawLine(trace3[i-1],trace3[i]);
+                painter.drawLine(trace4[i-3],trace4[i-2],trace4[i-1],trace4[i-0]);
             }
         }
+        else {
+            len = i;
+        }
+        i += 2;
     }
-    if (strokes > trace3.length())
+    if (strokes > len)
     {
         strokes = 0;
     }
