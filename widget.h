@@ -28,6 +28,7 @@ public:
     QVector<QPoint> trace3;
     int *trace4;
     QLine now_line;
+    QVector<QLine> painter_trace;
     int draw_en;
     int strokes;
     int run_time;

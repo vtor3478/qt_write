@@ -15,6 +15,7 @@ Widget::Widget(QWidget *parent)
     drawTimer.start();
     connect(&drawTimer,&QTimer::timeout,[=](){
         strokes++;
+        painter_trace.push_back(QLine(QPoint(1,1), QPoint(1,1)));
     });
 }
 
